@@ -1,12 +1,24 @@
 pipeline {
-    agent {
-        label 'docker'
+  environment {
+    imagename = "mvn_image"
+    dockerImage = ''
+    contanername= "mnv_cont"
+  }
+  agent any
+  stages {
+    stage('Cloning Git') {
+      steps {
+        git([url: 'https://github.com/tahritakwa/mvn_repo.git', 
+        branch: 'master',
+        credentialsId: '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'])
+
+      }
     }
-    stages {
-        stage('Building our image') {
-            steps {
-                script {
-                    dockerImage = docker.build "mcasperson/petclinic:$BUILD_NUMBER"
-                }
-            }
+    stage('Building image') {
+      steps{
+        script {
+          dockerImage = docker.build -t imagename .
         }
+      }
+
+    }
