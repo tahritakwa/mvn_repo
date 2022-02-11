@@ -1,24 +1,21 @@
 pipeline {
-  environment {
-    imagename = "mvn_image"
-    dockerImage = ''
-    contanername= "mnv_cont"
-  }
-  agent any
+  agent none
   stages {
-    stage('Cloning Git') {
-      steps {
-        git([url: 'https://github.com/tahritakwa/mvn_repo.git', 
-        branch: 'master',
-        credentialsId: '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'])
-
-      }
-    }
-    stage('Building image') {
-      steps{
-        script {
-          dockerImage = docker.build -t imagename .
+    stage('Maven Install') {
+      agent {
+        docker {
+          image 'maven:3.8.4'
         }
       }
-
+      steps {
+        sh 'mvn clean install'
+      }
     }
+    stage('Docker Build') {
+      agent any
+      steps {
+        sh 'docker build -t shanem/spring-petclinic:latest .'
+      }
+    }
+  }
+}
