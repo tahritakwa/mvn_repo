@@ -7,7 +7,7 @@ pipeline {
          image 'maven:3.5.0'         
      }       
   }       
-  steps {
+  steps dir("/var/lib/jenkins/workspace/mvn_build/my-app") {
        sh 'mvn clean install'
        }
      }
