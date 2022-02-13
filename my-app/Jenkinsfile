@@ -8,10 +8,10 @@ pipeline {
         }
       }
     }
-    stage('Docker Build') {
-      agent any
-      steps {
-        sh 'docker build -t mvn_image .'
+  stage('Docker Build') {
+     agent any
+       steps {
+         sh 'docker build -t mvn_image .'
       }
     }
   }
