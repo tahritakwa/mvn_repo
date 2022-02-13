@@ -17,5 +17,14 @@ pipeline {
          sh 'docker build -t mvn_image .'
       }
     }
+   stage('Docker Push') {
+      agent any
+      steps {
+        withCredentials([usernamePassword(credentialsId: 'DockerHub', passwordVariable: 'After2021', usernameVariable: 'takwa99')]) {
+          sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
+          sh 'docker push mvn_image'
+        }
+      }
+    }
   }
 }
