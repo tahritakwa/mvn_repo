@@ -21,7 +21,7 @@ pipeline {
       agent any
       steps {
         withCredentials([usernamePassword(credentialsId: 'DockerHub', passwordVariable: 'After2021', usernameVariable: 'takwa99')]) {
-          sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
+          sh "docker login -u ${env.takwa99} -p ${env.After2021}"
           sh 'docker push mvn_image'
         }
       }
