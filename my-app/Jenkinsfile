@@ -1,15 +1,18 @@
 pipeline {
-    agent none
-   stages {     
+  agent none
+  stages {
     stage('Maven Install') {
-      agent {         
-       docker {          
-         image 'maven:3.5.0'         
-     }       
-  }       
-  steps dir("/var/lib/jenkins/workspace/mvn_build/my-app") {
-       sh 'mvn clean install'
-       }
-     }
-   }
- }
+      agent {
+        docker {
+          image 'maven:3.5.0'
+        }
+      }
+    }
+    stage('Docker Build') {
+      agent any
+      steps {
+        sh 'docker build -t mvn_image .'
+      }
+    }
+  }
+}
