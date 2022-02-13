@@ -3,10 +3,8 @@ WORKDIR /my-app
 
 COPY pom.xml ./
 RUN mvn dependency:go-offline
-RUN mvn spring-javaformat:help
 
 COPY . ./
-RUN mvn spring-javaformat:apply
 RUN mvn package -DfinalName=petclinic
 
 FROM openjdk:8-jre-alpine
