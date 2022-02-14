@@ -1,5 +1,8 @@
 pipeline {
   agent none
+  environment {
+		DOCKERHUB_CREDENTIALS=credentials('DockerHub')
+	}
   stages {
     stage('Maven Install') {
       agent {
@@ -20,7 +23,7 @@ pipeline {
    stage('Docker Push') {
       agent any
       steps {
-        sh 'echo ed146a65-c54e-4850-b69e-2a2419b123eb | docker login -u takwa99 --password-stdin'
+        sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
         sh 'docker push mvn_image'
         }
       }
