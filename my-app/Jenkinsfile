@@ -30,7 +30,7 @@ pipeline {
    stage('Push') {
      agent any
        steps {
-	 sh 'docker push takwa99/mvn_image:latest'
+	 sh 'docker push mvn_image:latest'
 			}
 		}
  }
