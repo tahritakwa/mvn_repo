@@ -22,7 +22,8 @@ pipeline {
       steps {
         withCredentials([usernamePassword(credentialsId: 'DockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
           sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
-          sh 'docker push mvn_image:latest'
+          sh 'tag mvn_image takwa99/mvn_image'
+          sh 'docker push takwa99/mvn_image:latest'
         }
       }
     }
