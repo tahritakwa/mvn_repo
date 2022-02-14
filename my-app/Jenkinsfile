@@ -24,7 +24,7 @@ pipeline {
       agent any
       steps {
         sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-        sh 'docker push mvn_image:latest'
+        sh 'docker push takwa99/mvn_image:latest'
         }
       }
     }
