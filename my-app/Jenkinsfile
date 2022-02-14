@@ -30,7 +30,9 @@ pipeline {
    stage('Push') {
      agent any
        steps {
-	 sh 'docker push mvn_image:latest'
+         
+         sh 'docker login -u “takwa99” -p “After2021” docker.io'
+         sh 'docker push mvn_image:latest'
 			}
 		}
  }
