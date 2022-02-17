@@ -37,7 +37,7 @@ pipeline {
    stage('Deploy to k8s') {
      agent any
        steps{
-           kubernetesDeploy(configs: "node-deployment.yml", kubeconfigId: "kubernetes")
+           sh 'kubectl apply -f node-deployment.yaml'
                 }
         
     
