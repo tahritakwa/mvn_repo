@@ -36,10 +36,7 @@ pipeline {
           }
    stage('Deploy to k8s') {
      agent any
-       steps{
-           kubernetesDeploy(configs: "node-deployment.yml", kubeconfigId: "kubernetes")
-                }
-        
+       
     
 	}
 }
