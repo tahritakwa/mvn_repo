@@ -34,18 +34,20 @@ pipeline {
          sh 'docker push takwa99/mvn_image:latest'
                  }
           }
-   stage('Deploy to K8s')
-  {
-   steps{
-    sshagent(['k8s-jenkins'])
-    {
-     sh 'scp -r -o StrictHostKeyChecking=no node-deployment.yaml root@master@192.168.137.189:'script{
-      try{
-       sh 'ssh root@master@192.168.137.189 kubectl apply -f node-deployment.yaml --kubeconfig=/path/kube.yaml'}catch(error)
-       {}
-     }
-    }
-   }
-  }
+   stage('Deploy to k8s') {
+            steps{
+                sshagent(['k8s']) {
+                 sh "scp -o StrictHostKeyChecking=no node-deployment.yaml ubuntu@IPofk8scluster:/home/ubuntu"
+            script {
+                try{
+                    sh "ssh ubuntu@IPofk8scluster kubectl create -f ."
+                }catch(error){
+                    sh "ssh ubuntu@IPofk8scluster kubectl create -f ."
+            }
+}
+              }
+                }
+        
+    
 	}
 }

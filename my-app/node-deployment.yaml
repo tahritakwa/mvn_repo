@@ -1,32 +1,38 @@
-apiVersion: apps/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: recruitment-service-deployment
-  namespace: development
-  labels:
-    app: recruitment-service-app
+name: mvn_image
+labels:
+  app: mvn_image
 spec:
-  replicas: 4
-  template:
-    metadata:
-      labels:
-        apps: recruitment-service
-    spec:
-      containers:
-      - name: recruitment-service
-        image: gcr.io/bats-qa/recruitment-service:development
-        ports:
-        - containerPort: 8081
+strategy:
+  type: Recreate
+template:
+  metadata:
+    labels:
+      app: mvn_image
+      tier: mvn_image
+  spec:
+    containers:
+    - name: mvn_image
+      image: takwa99/mvn_image:latest
+      imagePullPolicy: Always
+      ports:
+      - containerPort: 5000
+        name: mvn_cont
+
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: recruitment-as-a-service
-  namespace: development
+name: mvn_image
+labels:
+  app: mvn_image
 spec:
-  ports:
-    - name: http
-      port: 8081
-  type: LoadBalancer    
-  selector:
-    apps: recruitment-service
+ports:
+  - port: 5000
+    targetPort: 5000
+selector:
+  app: mvn_image
+  tier: mvn_image
+type: LoadBalancer
