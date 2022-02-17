@@ -32,7 +32,20 @@ pipeline {
        steps {
          sh 'docker tag mvn_image takwa99/mvn_image'
          sh 'docker push takwa99/mvn_image:latest'
-			}
-		}
+                 }
+          }
+   stage('Deploy to K8s')
+  {
+   steps{
+    sshagent(['k8s-jenkins'])
+    {
+     sh 'scp -r -o StrictHostKeyChecking=no node-deployment.yaml root@master@192.168.137.189:/path'script{
+      try{
+       sh 'ssh root@master@192.168.137.189 kubectl apply -f node-deployment.yaml --kubeconfig=/path/kube.yaml'}catch(error)
+       {}
+     }
+    }
+   }
+  }
 	}
 }
