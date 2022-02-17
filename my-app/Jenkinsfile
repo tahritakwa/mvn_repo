@@ -35,9 +35,10 @@ pipeline {
                  }
           }
    stage('Deploy to k8s') {
-            steps{
-                sshagent(['k8s']) {
-                 sh "scp -o StrictHostKeyChecking=no node-deployment.yaml ubuntu@IPofk8scluster:/home/ubuntu"
+     agent any
+       steps{
+          sshagent(['k8s']) {
+          sh "scp -o StrictHostKeyChecking=no node-deployment.yaml ubuntu@IPofk8scluster:/home/ubuntu"
             script {
                 try{
                     sh "ssh ubuntu@IPofk8scluster kubectl create -f ."
