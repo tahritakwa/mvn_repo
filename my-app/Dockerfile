@@ -1,4 +1,4 @@
 FROM java:8
 EXPOSE 8080
-ADD /target/demo.jar demo.jar
-ENTRYPOINT ["java","-jar","demo.jar"]
+ADD /target/my-app-1.0-SNAPSHOT.jar my-app-1.0-SNAPSHOT.jar
+ENTRYPOINT ["java","-jar","my-app-1.0-SNAPSHOT.jar"]
