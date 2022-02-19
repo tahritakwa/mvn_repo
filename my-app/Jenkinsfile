@@ -17,7 +17,7 @@ pipeline {
    stage('Docker Build') {
      agent any
        steps {
-         sh 'docker build -t mvn_image:latest .'
+         sh 'docker build -f Dockerfile -t mvn_image:latest .'
       }
     }
    stage('Login') {
