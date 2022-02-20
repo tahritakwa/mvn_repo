@@ -37,16 +37,8 @@ pipeline {
    stage('Deploy to k8s') {
      agent any
        steps{
-         sshagent(['k8s']) {
-            sh "scp -o StrictHostKeyChecking=no node-deployment.yaml ubuntu@192.168.137.189:/home/sparkit/mvn_repo/my_app"
-            script {
-                try{
-                    sh "ssh ubuntu@192.168.137.189 kubectl create -f ."
-                }catch(error){
-                    sh "ssh ubuntu@192.168.137.189 kubectl create -f ."
-            }
-}
-        }
+         sh 'kubectl create deployment rps-node --image="mvn_image"' 
+        
          }
     
 	}
