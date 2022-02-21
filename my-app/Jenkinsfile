@@ -1,7 +1,7 @@
 pipeline {
   environment {
-    DOCKERHUB_CREDENTIALS=credentials('DockerHub')
-      }
+    DOCKERHUB_CREDENTIALS = credentials('DockerHub')
+  }
   agent none
   stages {
     stage('Maven Install') {
@@ -14,33 +14,32 @@ pipeline {
         sh 'mvn clean install'
       }
     }
-   stage('Docker Build') {
-     agent any
-       steps {
-         sh 'docker build -f Dockerfile -t mvn_image .'
+    stage('Docker Build') {
+      agent any
+      steps {
+        sh 'docker build -f Dockerfile -t mvn_image .'
       }
     }
-   stage('Login') {
-     agent any
-       steps {
-         sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-	}
-       }
+    stage('Login') {
+      agent any
+      steps {
+        sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+      }
+    }
 
-   stage('Push') {
-     agent any
-       steps {
-         sh 'docker tag mvn_image takwa99/mvn_image'
-         sh 'docker push takwa99/mvn_image:latest'
-                 }
-          }
-   stage('Deploy to k8s') {
-     agent any
-       steps{
-         sh 'kubectl create deployment rps-node --image="mvn_image"' 
-        
-         }
-    
-	}
-}
+    stage('Push') {
+      agent any
+      steps {
+        sh 'docker tag mvn_image takwa99/mvn_image'
+        sh 'docker push takwa99/mvn_image:latest'
+      }
+    }
+    stage('List Pods') {
+      steps {
+        withKubeConfig([credentialsId: 'kube']) {
+          sh 'kubectl create -f deployment.yml'
+        }
+      }
+    }
+  }
 }
