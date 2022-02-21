@@ -19,8 +19,9 @@ spec:
         image: takwa99/mvn_image:latest
         ports:
         - containerPort: 3000
-        
-        
+      imagePullSecrets:
+         - name: regsecret  
+              
 ---
 
 apiVersion: v1
