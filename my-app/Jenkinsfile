@@ -34,7 +34,7 @@ pipeline {
         sh 'docker push takwa99/mvn_image:latest'
       }
     }
-    stage('List Pods') {
+    stage('deploy to k8s') {
       agent any
       steps {
         withKubeConfig([credentialsId: 'kube']) {
