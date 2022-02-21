@@ -37,7 +37,7 @@ pipeline {
     stage('List Pods') {
       steps {
         withKubeConfig([credentialsId: 'kube']) {
-          sh 'kubectl create -f deployment.yml'
+          sh 'kubectl create https://raw.githubusercontent.com/tahritakwa/mvn_repo/master/my-app/deployment.yml'
         }
       }
     }
