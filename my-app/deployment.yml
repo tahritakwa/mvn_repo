@@ -1,28 +1,36 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  labels:
-    app: myapp
-  name: myapp
+  name: my-app-deploy
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: myapp
+      app: my-app
   template:
     metadata:
       labels:
-        app: myapp
+        app: my-app
     spec:
       containers:
-      - image: takwa99/mvn_image:latest
-        resources:
-          requests:
-            memory: "1000Mi"
-            cpu: "1500m"
-        name: mvn
-        imagePullPolicy: Never
-        command: [ "sleep" ]
-        args: [ "infinity" ]
+      - name: my-app
+        image: takwa99/mvn_image:latest
         ports:
-        - containerPort: 3000
+        - containerPort: 8080   
+        imagePullPolicy: Never 
+        command: ["/bin/sh"]
+        args: ["-c", "sleep 1000 && echo Sleep expired > /dev/termination-log"]
+          
+---
+kind: Service
+apiVersion: apps/v1
+metadata:
+  name: my-app
+spec:
+  selector:
+    app: my-app
+  ports:
+  - protocol: TCP
+    port: 8080
+  type: ClusterIP
+
