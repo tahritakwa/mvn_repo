@@ -21,16 +21,5 @@ spec:
         command: ["/bin/sh"]
         args: ["-c", "sleep 1000 && echo Sleep expired > /dev/termination-log"]
           
----
-kind: Service
-apiVersion: v1
-metadata:
-  name: my-app
-spec:
-  selector:
-    app: my-app
-  ports:
-  - protocol: TCP
-    port: 8080
-  type: ClusterIP
+
 
